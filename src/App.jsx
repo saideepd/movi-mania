@@ -1,7 +1,14 @@
+import { useState } from "react";
+
 const Card = ({ title, rating, isCool, actors }) => {
+  const [hasLiked, setHasLiked] = useState(false);
+
   return (
     <div className="card">
       <h2>{title}</h2>
+      <button onClick={() => setHasLiked(!hasLiked)}>
+        {hasLiked ? "❤️" : "🤍"}
+      </button>
       {/* <p>Rating: {rating}</p>
       <p>{isCool ? "This movie is cool!" : "This movie is not cool."}</p>
       <ul>
