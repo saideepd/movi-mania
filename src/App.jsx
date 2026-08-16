@@ -1,13 +1,6 @@
 const Card = ({ title, rating, isCool, actors }) => {
   return (
-    <div className="card" style={{
-      border: "1px solid #4b5362",
-      padding: "20px",
-      margin: "10px",
-      borderRadius: "10px",
-      backgroundColor: "#31363f",
-      minHeight: "100px",
-    }}>
+    <div className="card">
       <h2>{title}</h2>
       {/* <p>Rating: {rating}</p>
       <p>{isCool ? "This movie is cool!" : "This movie is not cool."}</p>
