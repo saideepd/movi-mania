@@ -1,36 +1,88 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import Search from "./components/Search";
 
-const Card = ({ title, rating, isCool, actors }) => {
-  const [count, setCount] = useState(0);
-  const [hasLiked, setHasLiked] = useState(false);
+const App = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [movieList, setMovieList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const API_BASE_URL = 'https://api.themoviedb.org/3';
+  const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+  const API_OPTIONS = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: `Bearer ${API_KEY}`
+    }
+  };
+
+  const fetchMovies = async () => {
+    setIsLoading(true);
+    setMovieList([]);
+
+    try {
+      const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+      const response = await fetch(endpoint, API_OPTIONS);
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch movies');
+      }
+
+      const data = await response.json();
+
+      if (data.Response === 'False') {
+        setErrorMessage(data.Error || 'Failed to fetch movies.');
+        setMovieList([]);
+        return;
+      }
+
+      setMovieList(data.results || []);
+
+    } catch (error) {
+      console.error(`Error fetching movies: ${error}`);
+      setErrorMessage('Error fetching movies. Please try again later.');
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   useEffect(() => {
-    console.log(`${title} has been liked: ${hasLiked}.`);
-  }, [hasLiked, title]);
+    fetchMovies();
+  }, []);
 
   return (
-    <div className="card" onClick={() => setCount(count + 1)}>
-      <h2>{title}<br />{count || null}</h2>
-      <button onClick={() => setHasLiked(!hasLiked)}>
-        {hasLiked ? "❤️" : "🤍"}
-      </button>
-      {/* <p>Rating: {rating}</p>
-      <p>{isCool ? "This movie is cool!" : "This movie is not cool."}</p>
-      <ul>
-        {actors && actors.map((actor, index) => (
-          <li key={index}>{actor.name}</li>
-        ))}
-      </ul> */}
-    </div>
-  )
-}
-const App = () => {
-  return (
-    <div className="card-container">
-      <Card title="Star Wars" rating={5} isCool={true} actors={[ { name: "Mark Hamill" }, { name: "Harrison Ford" }]} />
-      <Card title="Avatar" rating={4} isCool={true} actors={[ { name: "Sam Worthington" }, { name: "Zoe Saldana" }]} />
-      <Card title="The Lion King" rating={5} isCool={true} actors={[ { name: "Matthew Broderick" }, { name: "Jeremy Irons" }]} />
-    </div>
+    <main>
+      <div className="pattern" />
+
+      <div className="wrapper">
+        <header>
+          <img src="src/assets/hero.png" alt="Hero Banner" />
+          <h1>Find <span className="text-gradient">Movies</span> You'll Enjoy Without the Hassle</h1>
+          <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        </header>
+
+        <section className="all-movies">
+          <h2>All Movies</h2>
+
+          {isLoading ? (
+            <p className="text-white">Loading movies...</p>
+          ) : errorMessage ? (
+            <p className="text-red-500">{errorMessage}</p>
+          ) : (
+            <ul>
+              {movieList.map((movie) => (
+                <div key={movie.id}>
+                  <img key={`${movie.id}-img`} src={`https://media.themoviedb.org/t/p/w500${movie.poster_path}`} alt={movie.title} className="movie-card" />
+                  <li key={movie.id} className="text-white">{movie.title}</li>
+                </div>
+              ))}
+            </ul>
+          )}
+
+        </section>
+      </div>
+    </main>
   )
 }
 
