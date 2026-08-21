@@ -12,6 +12,12 @@ const Search = ({ searchTerm, setSearchTerm }) => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
             />
+
+            {searchTerm && (
+              <button onClick={() => setSearchTerm('')} type="button" className="text-white cursor-pointer text-2xl">
+                  &times;
+              </button>
+            )}
         </div>
     </div>
   )

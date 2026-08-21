@@ -19,12 +19,14 @@ const App = () => {
     }
   };
 
-  const fetchMovies = async () => {
+  const fetchMovies = async (query = '') => {
     setIsLoading(true);
     setMovieList([]);
 
     try {
-      const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+      const endpoint = query
+        ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
+        : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
       const response = await fetch(endpoint, API_OPTIONS);
 
       if (!response.ok) {
@@ -50,8 +52,12 @@ const App = () => {
   }
 
   useEffect(() => {
-    fetchMovies();
-  }, []);
+    const debounceTimer = setTimeout(() => {
+      fetchMovies(searchTerm);
+    }, 500);
+
+    return () => clearTimeout(debounceTimer);
+  }, [searchTerm]);
 
   return (
     <main>
@@ -74,7 +80,7 @@ const App = () => {
           ) : (
             <ul>
               {movieList.map((movie) => (
-                  <MovieCard key={movie.id} movie={movie} />
+                <MovieCard key={movie.id} movie={movie} />
               ))}
             </ul>
           )}
