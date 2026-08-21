@@ -1216,6 +1216,10 @@
         text-align: center
     }
 
+    .text-justify-between {
+        justify-content: space-between;
+    }
+
     .fancy-text {
         -webkit-text-stroke: 5px #cecefb80;
         font-family: Bebas Neue,sans-serif;
@@ -1305,6 +1309,10 @@
 
     .outline-hidden {
         outline-style: none
+    }
+
+    .cursor-pointer {
+      cursor: pointer
     }
 
     @media (forced-colors:active) {

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import Search from "./components/Search";
+import Spinner from "./components/Spinner";
+import MovieCard from "./components/MovieCard";
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -63,19 +65,16 @@ const App = () => {
         </header>
 
         <section className="all-movies">
-          <h2>All Movies</h2>
+          <h2 className="mt-[40px]">All Movies</h2>
 
           {isLoading ? (
-            <p className="text-white">Loading movies...</p>
+            <Spinner />
           ) : errorMessage ? (
             <p className="text-red-500">{errorMessage}</p>
           ) : (
             <ul>
               {movieList.map((movie) => (
-                <div key={movie.id}>
-                  <img key={`${movie.id}-img`} src={`https://media.themoviedb.org/t/p/w500${movie.poster_path}`} alt={movie.title} className="movie-card" />
-                  <li key={movie.id} className="text-white">{movie.title}</li>
-                </div>
+                  <MovieCard key={movie.id} movie={movie} />
               ))}
             </ul>
           )}
