@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { updateSearchCount } from "./appwrite";
 import Search from "./components/Search";
 import { useDebounce } from "react-use";
 import Spinner from "./components/Spinner";
@@ -47,6 +48,10 @@ const App = () => {
 
       setMovieList(data.results || []);
 
+      // Call the function to update the search count in Appwrite
+      if (query && data.results.length > 0) {
+        await updateSearchCount(query, data.results[0]);
+      }
     } catch (error) {
       console.error(`Error fetching movies: ${error}`);
       setErrorMessage('Error fetching movies. Please try again later.');
@@ -56,11 +61,7 @@ const App = () => {
   }
 
   useEffect(() => {
-    // const debounceTimer = setTimeout(() => {
     fetchMovies(debouncedSearchTerm);
-    // }, 500);
-
-    // return () => clearTimeout(debounceTimer);
   }, [debouncedSearchTerm]);
 
   return (
