@@ -1,4 +1,5 @@
 import { Client, TablesDB, Query, ID } from 'appwrite';
+import noMovie from './assets/no-movie.png';
 
 const PROJECT_ID = import.meta.env.VITE_APPWRITE_PROJECT_ID;
 const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
@@ -46,7 +47,7 @@ export const updateSearchCount = async (searchTerm, movie) => {
                     title: movie.title,
                     poster_url: movie.poster_path
                         ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-                        : 'src/assets/no-movie.png'
+                        : noMovie
                 }
             });
         }
@@ -65,5 +66,6 @@ export const getTrendingMovies = async () => {
         return result.rows;
     } catch (error) {
         console.error('Error fetching trending movies:', error);
+        return [];
     }
 }

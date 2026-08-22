@@ -1,8 +1,11 @@
+import noMovie from "../assets/no-movie.png";
+import star from "../assets/star.svg";
+
 const MovieCard = ({ movie:
     { title, vote_average, poster_path, release_date, original_language, overview } }) => {
     return (
         <div className="movie-card">
-            <img src={poster_path ? `https://image.tmdb.org/t/p/w500${poster_path}` : 'src/assets/no-movie.png'} alt={title} />
+            <img src={poster_path ? `https://image.tmdb.org/t/p/w500${poster_path}` : noMovie} alt={title} />
             <div className="mt-4">
                 <div className="flex flex-row items-center text-justify-between">
                     <h3>{title}</h3>
@@ -11,7 +14,7 @@ const MovieCard = ({ movie:
 
                 <div className="content">
                     <div className="rating">
-                        <img src="src/assets/star.svg" alt="Star Icon" />
+                        <img src={star} alt="Star Icon" />
                         <span>{vote_average ? vote_average.toFixed(1) : 'N/A'}</span>
                     </div>
 

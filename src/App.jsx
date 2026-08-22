@@ -4,6 +4,8 @@ import Search from "./components/Search";
 import { useDebounce } from "react-use";
 import Spinner from "./components/Spinner";
 import MovieCard from "./components/MovieCard";
+import hero from "./assets/hero.png";
+import noMovie from "./assets/no-movie.png";
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -100,7 +102,7 @@ const App = () => {
 
       <div className="wrapper">
         <header>
-          <img src="src/assets/hero.png" alt="Hero Banner" />
+          <img src={hero} alt="Hero Banner" />
           <h1>Find <span className="text-gradient">Movies</span> You'll Enjoy Without the Hassle</h1>
           <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         </header>
@@ -118,7 +120,10 @@ const App = () => {
                 {trendingMovies.map((movie, index) => (
                   <li key={movie.$id}>
                     <p>{index + 1}</p>
-                    <img src={movie.poster_url} alt={movie.title} />
+                    <img
+                      src={movie.poster_url?.startsWith('http') ? movie.poster_url : noMovie}
+                      alt={movie.title}
+                    />
                   </li>
                 ))}
               </ul>
