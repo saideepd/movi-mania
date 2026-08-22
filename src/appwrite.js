@@ -29,7 +29,8 @@ export const updateSearchCount = async (searchTerm, movie) => {
                 tableId: TABLE_ID,
                 rowId: row.$id,
                 data: {
-                    count: row.count + 1
+                    count: row.count + 1,
+                    title: movie.title,
                 }
             });
         } else {
@@ -42,6 +43,7 @@ export const updateSearchCount = async (searchTerm, movie) => {
                     searchTerm,
                     count: 1,
                     movie_id: movie.id,
+                    title: movie.title,
                     poster_url: movie.poster_path
                         ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
                         : 'src/assets/no-movie.png'
@@ -52,3 +54,16 @@ export const updateSearchCount = async (searchTerm, movie) => {
         console.error('Error updating search count:', error);
     }
 };
+
+export const getTrendingMovies = async () => {
+    try {
+        const result = await tablesDB.listRows({
+            databaseId: DATABASE_ID,
+            tableId: TABLE_ID,
+            queries: [Query.orderDesc('count'), Query.limit(10)]
+        });
+        return result.rows;
+    } catch (error) {
+        console.error('Error fetching trending movies:', error);
+    }
+}
