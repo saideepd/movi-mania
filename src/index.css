@@ -390,7 +390,7 @@
         padding: 0
     }
 
-    html,: host {
+    html, :host {
         -webkit-text-size-adjust:100%;
         -moz-tab-size: 4;
         tab-size: 4;
@@ -411,7 +411,7 @@
         border-top-width: 1px
     }
 
-    abbr: where([title]) {
+    abbr:where([title]) {
         -webkit-text-decoration:underline dotted;
         text-decoration: underline dotted
     }
@@ -511,11 +511,11 @@
         border-radius: 0
     }
 
-    :where(select: is([multiple],[size])) optgroup {
+    :where(select:is([multiple],[size])) optgroup {
         font-weight:bolder
     }
 
-    :where(select: is([multiple],[size])) optgroup option {
+    :where(select:is([multiple],[size])) optgroup option {
         padding-inline-start:20px
     }
 
@@ -579,7 +579,7 @@
         box-shadow: none
     }
 
-    button,input: where([type=button],[type=reset],[type=submit]) {
+    button,input:where([type=button],[type=reset],[type=submit]) {
         -webkit-appearance:button;
         -moz-appearance: button;
         appearance: button
@@ -599,7 +599,7 @@
         height: auto
     }
 
-    [hidden]: where(:not([hidden=until-found])) {
+    [hidden]:where(:not([hidden=until-found])) {
         display:none!important
     }
 
@@ -713,7 +713,7 @@
         overflow-y: auto
     }
 
-    .trending ul: :-webkit-scrollbar {
+    .trending ul::-webkit-scrollbar {
         display:none
     }
 
@@ -772,7 +772,7 @@
         outline-style: none
     }
 
-    .search input: :placeholder {
+    .search input::placeholder {
         color:var(--color-light-200)
     }
 
