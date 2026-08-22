@@ -81,11 +81,17 @@ const App = () => {
   }
 
   useEffect(() => {
-    fetchMovies(debouncedSearchTerm);
+    const fetchData = async () => {
+      await fetchMovies(debouncedSearchTerm);
+    };
+    fetchData();
   }, [debouncedSearchTerm]);
 
   useEffect(() => {
-    loadTrendingMovies();
+    const fetchTrendingMovies = async () => {
+      await loadTrendingMovies();
+    };
+    fetchTrendingMovies();
   }, []);
 
   return (
