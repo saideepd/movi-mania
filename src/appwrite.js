@@ -61,9 +61,18 @@ export const getTrendingMovies = async () => {
         const result = await tablesDB.listRows({
             databaseId: DATABASE_ID,
             tableId: TABLE_ID,
-            queries: [Query.orderDesc('count'), Query.limit(10)]
+            queries: [Query.orderDesc('count'), Query.limit(100)]
         });
-        return result.rows;
+
+        const uniqueMovies = new Map();
+
+        for (const row of result.rows) {
+            if (row.movie_id && !uniqueMovies.has(row.movie_id)) {
+                uniqueMovies.set(row.movie_id, row);
+            }
+        }
+
+        return Array.from(uniqueMovies.values()).slice(0, 10);
     } catch (error) {
         console.error('Error fetching trending movies:', error);
         return [];
